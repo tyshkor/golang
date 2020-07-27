@@ -3,20 +3,50 @@ package main
 import "fmt"
 
 type worker struct {
-	name           string
-	age            int
+	pers person
+	exp  int "expirience"
+}
+
+type person struct {
+	name string "fullname"
+	age  int
+}
+
+type hr struct {
+	wor     worker
+	country string
+	field   string "typeOfCompany"
+}
+
+type coder struct {
+	wor           worker
+	primaryTech   string
+	secondaryTech string
+}
+
+type sales struct {
+	wor   worker
+	field string "areaOfinterest"
+}
+
+type athlete struct {
+	wor    worker
+	sport  string
+	wins   int
+	losses int
+}
+
+type lawyer struct {
+	wor            worker
 	specialization string
-	expirience     int
 }
 
 func main() {
-	q := worker{
-		"Maksym Sydorov",
-		27,
-		"HR",
-		4}
+
+	q := hr{worker{person{"Maksym Sydorov", 27}, 5}, "Ukraine", "IT"}
 	fmt.Println(q)
 	fmt.Println("Hello World")
+
 	a := make([]int, 4)
 
 	a = a[:2]
