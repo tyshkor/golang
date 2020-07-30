@@ -51,6 +51,6 @@ func main() {
 	fmt.Printf("Your age 5 yers ago was %d", q.yourAge5YearsAgo())
   
 	//panic("some problem")
-	var a [2]int
-	fmt.Print(a[2])
+	var r *human
+	fmt.Printf(r.age)
 }
