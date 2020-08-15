@@ -1,0 +1,52 @@
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+type worker struct {
+	pers human
+	exp  int
+}
+
+type human struct {
+	name string
+	age  int
+}
+
+type hr struct {
+	wor     *worker
+	country string
+	field   string
+}
+
+type coder struct {
+	wor           worker
+	primaryTech   string
+	secondaryTech string
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	str := ""
+	query := r.URL.Query()
+	str = query.Get("name")
+	fmt.Println(str)
+	if str == "" {
+		str = r.PostFormValue("name")
+	}
+
+	x := fmt.Sprintln(m[str])
+	fmt.Fprintf(w, x)
+}
+
+var m map[string]worker
+
+func main() {
+	m = make(map[string]worker)
+	m["1"] = worker{human{"Mike", 30}, 8}
+	m["2"] = worker{human{"Jack", 35}, 10}
+	http.HandleFunc("/", handler)
+	http.HandleFunc("/greet", handler)
+	http.ListenAndServe(":8000", nil)
+}
