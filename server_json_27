@@ -1,0 +1,53 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+
+	"net/http"
+	"strconv"
+)
+
+var m []worker
+
+type worker struct {
+	Name string `json:"name1"`
+	Age  string `json:"age1"`
+	Exp  string `json:"exp1"`
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	str := ""
+	q := r.Method
+
+	if q == "POST" {
+		fmt.Println(q)
+		body, _ := ioutil.ReadAll(r.Body)
+		fmt.Println(body)
+		x := worker{}
+		_ = json.Unmarshal(body, &x)
+		fmt.Println(x)
+		m = append(m, x)
+		str = strconv.Itoa(len(m))
+		// fmt.Fprintf(w, str)
+		fmt.Println(m)
+	} else {
+		id, _ := strconv.ParseInt(str, 10, 64)
+		x := fmt.Sprintln(m[id])
+		fmt.Fprintf(w, x)
+	}
+
+}
+
+func main() {
+	m = make([]worker, 0)
+	// x := worker{human{"Mike", "30"}, "8"}
+	// m = append(m, x)
+	// x = worker{human{"Jack", "35"}, "10"}
+	// m = append(m, x)
+	fmt.Println(m)
+	http.HandleFunc("/", handler)
+	http.HandleFunc("/greet", handler)
+	http.ListenAndServe(":8000", nil)
+}
